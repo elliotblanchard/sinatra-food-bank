@@ -128,6 +128,7 @@ DEPENDENCIES
   database_cleaner!
   dotenv
   geokit
+  nokogiri
   pry
   rack-test
   rake

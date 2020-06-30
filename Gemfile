@@ -13,6 +13,7 @@ gem 'bcrypt'
 gem 'tux'
 gem 'dotenv'
 gem 'geokit'
+gem 'nokogiri'
 gem 'sinatra-flash'
 
 group :test do
