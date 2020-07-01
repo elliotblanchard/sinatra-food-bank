@@ -7,7 +7,7 @@ class AdminsController < ApplicationController
 
     get '/admin' do
         "In admin page"
-        binding.pry
+        #binding.pry
     end 
     
     helpers do
