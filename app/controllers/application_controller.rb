@@ -68,7 +68,9 @@ class ApplicationController < Sinatra::Base
     time[:hour] = dateTime.strftime("%l") #Hour of the day, 12 hour format, blank padded as in " 1" instead of "01"
     time[:minutes] = dateTime.strftime("%M") #Minute of the hour zero padded as in "05"
     time[:ampm] = dateTime.strftime("%p") #AM/PM
-    #Now that you have the time hash, need to send it to Bank.find_by_time(time_hash)
+    same_time = Bank.find_by_time(time)
+    #This seems to be working, but check further that same_time has only banks that are open on right day of the week AND time
+    binding.pry
 
   end
 end
