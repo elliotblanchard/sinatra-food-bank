@@ -20,7 +20,7 @@
                 <table>
                     <tr>
                         <td>Address:</td>
-                        <td><%=@banks_sorted[i].address%></td>
+                        <td><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a></td>
                     </tr>
                     <tr>
                         <td>Type:</td>
@@ -28,7 +28,7 @@
                     </tr>
                     <tr>                
                         <td>Phone:</td> 
-                        <td><%=@banks_sorted[i].phone%></td>
+                        <td><a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a></td>
                     </tr>
                     <tr>                
                         <td>Contact:</td> 
@@ -66,43 +66,56 @@
     var user_location = {lat: <%=@user_location.lat%>, lng: <%=@user_location.lng%>};    
     // The map, centered at the user
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12, 
+        zoom: 11.5, 
         center: user_location,
         gestureHandling: 'auto'
     });
 
-    var contentString = '<div id="content">'+
+    <% for i in 0..4 %>
+        <% if @banks_sorted[i] != nil %>
+        var contentString_<%=i%> = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h3 id="firstHeading" class="firstHeading"><%=@banks_sorted[i].name.gsub("\'","&#8217;")%></h3>'+ //Replace any single quotes in the names with equivalent code so HTML does not crash
+        '<div id="bodyContent">'+
+        '<p><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a><br>'+        
+        '<a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a></p>'+
+        '</div>'+
+        '</div>';
+        <% end %>            
+    <% end %>
+
+    var contentString_user = '<div id="content">'+
     '<div id="siteNotice">'+
     '</div>'+
-    '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-    '<div id="bodyContent">'+
-    '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-    'sandstone rock formation in the southern part of the '+
-    'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-    'south west of the nearest large town, Alice Springs; 450&#160;km '+
-    '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-    'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-    'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-    'Aboriginal people of the area. It has many springs, waterholes, '+
-    'rock caves and ancient paintings. Uluru is listed as a World '+
-    'Heritage Site.</p>'+
-    '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-    'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-    '(last visited June 22, 2009).</p>'+
-    '</div>'+
+    '<h4 id="firstHeading" class="firstHeading"><%=@user_location.full_address%></h4>'+ 
     '</div>';
-
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-      });
 
     // The markers, positioned for each food bank
     <% for i in 0..4 %>
+        var infowindow_<%=i%> = new google.maps.InfoWindow({
+            content: contentString_<%=i%>
+        });     
         var marker_<%=i%> = new google.maps.Marker({
             position: bank_<%=i%>,             
             map: map
         });
+        marker_<%=i%>.addListener('click', function() {
+            <% for j in 0..4 %>
+                if (infowindow_<%=j%>) {
+                    infowindow_<%=j%>.close();
+                }
+            <% end %>
+            if (infowindow_user) {
+                infowindow_user.close();
+            }
+            infowindow_<%=i%>.open(map, marker_<%=i%>);
+        });    
     <% end %>
+    // InfoWindow for user
+    var infowindow_user = new google.maps.InfoWindow({
+        content: contentString_user
+    });    
     // The marker positioned for the user
         var marker_user = new google.maps.Marker({
             position: user_location, 
@@ -113,7 +126,8 @@
             map: map
         });   
         marker_user.addListener('click', function() {
-            infowindow.open(map, marker_user);
+            infowindow_user.close;
+            infowindow_user.open(map, marker_user);
           });        
     }
     </script>
