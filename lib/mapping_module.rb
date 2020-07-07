@@ -14,24 +14,27 @@ module Mapping
       end
     end
     
-    def self.get_distance(user_address,banks)
+    def self.get_distance(user_address,banks,user_location)
       # Return array of food banks sorted by distance
-  
-      user_location = self.get_location(user_address)
+
+      #user_location = self.get_location(user_address)
       
       puts "Looking up distances "
       
       # First get distances for each of the food banks
       banks.each_with_index do |bank, index|
-        banks[index].distance = user_location.distance_to(banks[index].location) # Important line that calculates distance in miles between user and food bank
+        #banks[index].distance = user_location.distance_to(banks[index].location) # Important line that calculates distance in miles between user and food bank
+        bankLatLng = Geokit::LatLng.new
+        bankLatLng.lat = banks[index].lat
+        bankLatLng.lng = banks[index].lng
+        banks[index].distance = user_location.distance_to(bankLatLng) # Important line that calculates distance in miles between user and food bank        
         print "\b\b\b\b" 
         percent_complete = (index.to_f+1.0)/banks.length.to_f # This is basically instantaneous now
-        print "#{(percent_complete.round(2)*100).to_i}%".colorize(:yellow).blink
+        print "#{(percent_complete.round(2)*100).to_i}%"
       end
       
       puts "\n"
-      banks_sorted = banks.sort_by { |bank| bank.distance }
-      
+      banks_sorted = banks.sort_by { |bank| bank.distance.to_f }
       banks_sorted
     end
     

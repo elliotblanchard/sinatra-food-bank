@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+    </style>
+  </head>
+  <body>
+    <% if @banks_sorted != nil %>
+        <h1>Here are the 5 closest food banks open at:</h1> 
+        <h2><%=@time[:hour]%>:<%=@time[:minutes]%> <%=@time[:ampm]%> on <%=@day_of_week%></h2>
+        <h2>Please call ahead to confirm hours!</h2>
+        <% for i in 0..4 %>
+            <% if @banks_sorted[i] != nil %>
+                <p><%=i+1%>. <%=@banks_sorted[i].name%>:
+                <table>
+                    <tr>
+                        <td>Address:</td>
+                        <td><%=@banks_sorted[i].address%></td>
+                    </tr>
+                    <tr>
+                        <td>Type:</td>
+                        <td><%=@banks_sorted[i].program%></td>
+                    </tr>
+                    <tr>                
+                        <td>Phone:</td> 
+                        <td><%=@banks_sorted[i].phone%></td>
+                    </tr>
+                    <tr>                
+                        <td>Contact:</td> 
+                        <td><%=@banks_sorted[i].contact%></td>
+                    </tr>
+                    <tr>                         
+                        <td>Distance:</td> 
+                        <td><%=@banks_sorted[i].distance.to_f.round(2)%> miles</td>
+                    </tr>
+                    <tr>                         
+                        <td>Hours:</td>
+                        <td><%=@banks_sorted[i].days%></td>
+                    </tr>
+                </table>
+                </p>
+            <% end %>
+        <% end %>   
+    <% else  %>
+        No food banks match your selected time.
+    <% end %>     
+
+    <h3>Food Banks (pin) + Your Location (circle) Maps</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
+    <script>
+    // Initialize and add the map
+    function initMap() {
+    // The location of food banks
+    <% for i in 0..4 %>
+        <% if @banks_sorted[i] != nil %>
+            var bank_<%=i%> = {lat: <%=@banks_sorted[i].lat%>, lng: <%=@banks_sorted[i].lng%>};
+        <% end %>
+    <% end %>
+    // The location of user
+    var user_location = {lat: <%=@user_location.lat%>, lng: <%=@user_location.lng%>};    
+    // The map, centered at the user
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12, 
+        center: user_location,
+        gestureHandling: 'auto'
+    });
+
+    var contentString = '<div id="content">'+
+    '<div id="siteNotice">'+
+    '</div>'+
+    '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+    '<div id="bodyContent">'+
+    '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+    'sandstone rock formation in the southern part of the '+
+    'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+    'south west of the nearest large town, Alice Springs; 450&#160;km '+
+    '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+    'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+    'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+    'Aboriginal people of the area. It has many springs, waterholes, '+
+    'rock caves and ancient paintings. Uluru is listed as a World '+
+    'Heritage Site.</p>'+
+    '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+    'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+    '(last visited June 22, 2009).</p>'+
+    '</div>'+
+    '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+    // The markers, positioned for each food bank
+    <% for i in 0..4 %>
+        var marker_<%=i%> = new google.maps.Marker({
+            position: bank_<%=i%>,             
+            map: map
+        });
+    <% end %>
+    // The marker positioned for the user
+        var marker_user = new google.maps.Marker({
+            position: user_location, 
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 4
+              },            
+            map: map
+        });   
+        marker_user.addListener('click', function() {
+            infowindow.open(map, marker_user);
+          });        
+    }
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=<%=@api_key%>&callback=initMap">
+    </script>
+</body>
+</html>
