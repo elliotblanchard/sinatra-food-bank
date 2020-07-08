@@ -132,7 +132,16 @@
                     </tr>
                     <tr>                         
                         <td>Hours:</td>
-                        <td><%=@banks_sorted[i].days%></td>
+                        <td>
+                            <ul>
+                            <% days_array = @banks_sorted[i].days.split(',') %>
+                            <% days_array.each do |day| %>
+                                <% if day.length > 1 %>
+                                    <li><%=day%>
+                                <% end %>
+                            <% end %>
+                            </ul>
+                        </td>
                     </tr>
                 </table>
                 </p>
