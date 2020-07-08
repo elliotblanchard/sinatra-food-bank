@@ -27,7 +27,6 @@ class ApplicationController < Sinatra::Base
     #
     # !!! Need to handle case where DATE and TIME is not supported by browser
     # !!! Still need to check address - think there's some sort of "certainty" field in the GeoKit response you can look at
-    # !!! Need to search around a two hour window of the chosen time
     # !!! Need to save to a logging DB
     #
     # Example params when using a brower that supports both DATE and TIME fields (like Chrome)
@@ -56,26 +55,26 @@ class ApplicationController < Sinatra::Base
       @api_key =  ENV['GOOGLE_MAPS_API_KEY']
       # Format open times correctly
       @banks_sorted.each do |bank|
-        days_array = bank.days.gsub(/[^\d\w\s:,-]/, "").split(',') #Clean out everything except letters, numbers, :, -, comma, and whitespace
+        days_array = bank.days.gsub(/[^\d\s:,-]/, "").split(',') #Clean out everything except letters, numbers, :, -, comma, and whitespace
         bank.days = ""
         days_array.each_with_index do |day, index|
           if day.length > 7 #Covers 'closed' or '-'
             day_detail = ""
             case index
               when 0
-                day_detail = "Sunday"
+                day_detail = "Sunday "
               when 1
-                day_detail = "Monday"
+                day_detail = "Monday "
               when 2
-                day_detail = "Tuesday"
+                day_detail = "Tuesday "
               when 3
-                day_detail = "Wednesday"
+                day_detail = "Wednesday "
               when 4
-                day_detail = "Thursday"
+                day_detail = "Thursday " 
               when 5
-                day_detail = "Friday"
+                day_detail = "Friday "
               else
-                day_detail = "Saturday" 
+                day_detail = "Saturday " 
             end
             day_detail += day
             day_detail += ","

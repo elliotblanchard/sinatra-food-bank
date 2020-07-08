@@ -20,7 +20,6 @@ class Bank < ActiveRecord::Base
         
         correct_day.each do |bank| 
           # Parse the time data in the XML file to extract times
-          #time_raw = bank.days[time_hash[:day]].split("-")
           if bank.days
             time_raw = bank.days.split(",")[time_hash[:day].to_i].split("-")
           end
