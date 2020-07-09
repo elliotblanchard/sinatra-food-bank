@@ -25,10 +25,7 @@ class ApplicationController < Sinatra::Base
 
   post "/" do
     #
-    # !!! Need to handle case where DATE and TIME is not supported by browser
-    # !!! Need JS checking that they have something in the date / time fields - not empty
     # !!! Need to save to a logging DB
-    # !!! Date/time should default to today/now if it's bad
     #
     # Example params when using a brower that supports both DATE and TIME fields (like Chrome)
     #   {"street_number"=>"45", "route"=>"Waverly Avenue", "locality"=>"", 
@@ -88,6 +85,17 @@ class ApplicationController < Sinatra::Base
     same_time = Bank.find_by_time(@time)
     
     if same_time.length > 0
+      # If address params are blank/nill, default to generic New York location
+      if params[:street_number] == nil
+        params[:street_number] = ""
+      end
+      if params[:route] == nil 
+        params[:route] = ""
+      end
+      if params[:postal_code] == nil 
+        params[:postal_code] = ""
+      end
+
       # Get distance between the user and every food bank open at the right time / day
       full_address = params[:street_number] + " " + params[:route] + " New York, NY " + params[:postal_code]
       @user_location = Mapping.get_location(full_address)
@@ -123,6 +131,10 @@ class ApplicationController < Sinatra::Base
         end
       end
     end
+
+    #Log search data
+    Log.create(address: full_address, time: dateTime)
+
     erb:'/show'
   end
 end
