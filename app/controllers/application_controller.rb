@@ -20,6 +20,7 @@ class ApplicationController < Sinatra::Base
     @api_key =  ENV['GOOGLE_MAPS_API_KEY']  
     #Uses the Google Places API for address auto-complete - example here:
     #https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
+
     erb :welcome
   end
 
