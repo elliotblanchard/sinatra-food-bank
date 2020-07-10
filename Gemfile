@@ -14,10 +14,10 @@ gem 'dotenv'
 gem 'geokit'
 gem 'nokogiri'
 gem 'sinatra-flash'
-gem 'pg'
+gem 'pg', '~> 0.20'
+gem 'sqlite3', '~> 1.3.6', :group => :development 
 
 group :test do
-  gem 'sqlite3', '~> 1.3.6'  
   gem 'rspec'
   gem 'capybara'
   gem 'rack-test'
