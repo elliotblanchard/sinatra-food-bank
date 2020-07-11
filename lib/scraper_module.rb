@@ -2,7 +2,7 @@ require_relative 'mapping_module'
 
 module Scraper
     include Mapping 
-    BASE_PATH = "fixtures/Food_Bank_For_NYC_Open_Members_as_of_42820.kml"  
+    BASE_PATH = "fixtures/Food_Bank_For_NYC_Open_Members_as_of_71020.kml"  
     
     def scrape_banks
         xml = File.read(BASE_PATH)
