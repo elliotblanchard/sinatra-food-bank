@@ -3,109 +3,72 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>NYC Food Banks</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/f8027915fa.js" crossorigin="anonymous"></script>
   </head>
   <body>
-  <section class="section">
-    <div class="container">
-      <h1 class="title">
-        Hello World
-      </h1>
-      <p class="subtitle">
-        My first website with <strong>Bulma</strong>!
-      </p>
-    </div>
-  </section>
+    <section class="hero has-background-white-ter is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class ="column is-5-tablet is-4-desktop is-3-widescreen">
+                        <div class="box">
+                            <!--<h3 class="title is-3">NYC Food Banks</h3>-->
+                            <p class="subtitle">
+                                We search 500+ New York City food banks to find the nearest one open for <strong>you</strong>.
+                            </p>
+                            <form action="POST">
 
-  <section class="section">
-    <div class="container">
+                                <div class="field">
+                                    <label for ="" class="label">Address</label>
+                                    <div class="control has-icons-left">
+                                        <input type="text" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" class="input" required>
+                                        <span class="icon is-small is-left">
+                                            <i class="fa fa-location-arrow"></i>
+                                        </span>
+                                        <input type="hidden" class="field" name="street_number" id="street_number" disabled="true"/>
+                                        <input type="hidden" class="field" name="route" id="route" disabled="true"/>
+                                        <input type="hidden" class="field" name="locality" id="locality" disabled="true"/>
+                                        <input type="hidden" class="field" name="administrative_area_level_1" id="administrative_area_level_1" disabled="true"/>
+                                        <input type="hidden" class="field" name="postal_code" id="postal_code" disabled="true"/>
+                                        <input type="hidden" class="field" name="country" id="country" disabled="true"/>                                        
+                                    </div>
+                                </div>
 
-  <div class="field">
-  <label class="label">Name</label>
-  <div class="control">
-    <input class="input" type="text" placeholder="Text input">
-  </div>
-</div>
+                                <div class="field">
+                                    <label for ="" class="label">Day</label>
+                                    <div class="control has-icons-left">
+                                        <input type="date" name="date" id="date" placeholder="07/22/2020" class="input" required>
+                                        <span class="icon is-small is-left">
+                                            <i class="fa fa-calendar-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
 
-<div class="field">
-  <label class="label">Username</label>
-  <div class="control has-icons-left has-icons-right">
-    <input class="input is-success" type="text" placeholder="Text input" value="bulma">
-    <span class="icon is-small is-left">
-      <i class="fas fa-user"></i>
-    </span>
-    <span class="icon is-small is-right">
-      <i class="fas fa-check"></i>
-    </span>
-  </div>
-  <p class="help is-success">This username is available</p>
-</div>
+                                <div class="field">
+                                    <label for ="" class="label">Time</label>
+                                    <div class="control has-icons-left">
+                                        <input type="time" name="time" id="time" placeholder="10:15 AM" class="input" required>
+                                        <span class="icon is-small is-left">
+                                            <i class="fa fa-clock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <br>
 
-<div class="field">
-  <label class="label">Email</label>
-  <div class="control has-icons-left has-icons-right">
-    <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
-    <span class="icon is-small is-left">
-      <i class="fas fa-envelope"></i>
-    </span>
-    <span class="icon is-small is-right">
-      <i class="fas fa-exclamation-triangle"></i>
-    </span>
-  </div>
-  <p class="help is-danger">This email is invalid</p>
-</div>
-
-<div class="field">
-  <label class="label">Subject</label>
-  <div class="control">
-    <div class="select">
-      <select>
-        <option>Select dropdown</option>
-        <option>With options</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-<div class="field">
-  <label class="label">Message</label>
-  <div class="control">
-    <textarea class="textarea" placeholder="Textarea"></textarea>
-  </div>
-</div>
-
-<div class="field">
-  <div class="control">
-    <label class="checkbox">
-      <input type="checkbox">
-      I agree to the <a href="#">terms and conditions</a>
-    </label>
-  </div>
-</div>
-
-<div class="field">
-  <div class="control">
-    <label class="radio">
-      <input type="radio" name="question">
-      Yes
-    </label>
-    <label class="radio">
-      <input type="radio" name="question">
-      No
-    </label>
-  </div>
-</div>
-
-<div class="field is-grouped">
-  <div class="control">
-    <button class="button is-link">Submit</button>
-  </div>
-  <div class="control">
-    <button class="button is-link is-light">Cancel</button>
-  </div>
- </div>
-</div>
-</section>
+                                <div class="field">
+                                    <button class="button is-primary">
+                                        Find food banks
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
   </body>
 </html>
