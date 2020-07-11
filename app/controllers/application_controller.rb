@@ -26,7 +26,6 @@ class ApplicationController < Sinatra::Base
 
   post "/" do
     #
-    # !!! Need to save to a logging DB
     #
     # Example params when using a brower that supports both DATE and TIME fields (like Chrome)
     #   {"street_number"=>"45", "route"=>"Waverly Avenue", "locality"=>"", 
@@ -137,5 +136,9 @@ class ApplicationController < Sinatra::Base
     Log.create(address: full_address, time: dateTime)
 
     erb:'/show'
+  end
+
+  get "/style_test" do
+    erb:'/style_test'
   end
 end

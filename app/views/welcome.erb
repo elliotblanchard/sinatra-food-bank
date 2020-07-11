@@ -21,7 +21,7 @@
     <style>
       #locationField, #controls {
         position: relative;
-        width: 480px;
+        width: 300px;
       }
       #autocomplete {
         position: absolute;
@@ -65,47 +65,26 @@
     <form class="" action="/" method="post">
       <h3>Your Location</h3>
       <div id="locationField">
-        <input id="autocomplete"
-              placeholder="Enter your address"
-              onFocus="geolocate()"
-              type="text"/>
+        <input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
+        <input type="hidden" class="field" name="street_number" id="street_number" disabled="true"/>
+        <input type="hidden" class="field" name="route" id="route" disabled="true"/>
+        <input type="hidden" class="field" name="locality" id="locality" disabled="true"/>
+        <input type="hidden" class="field" name="administrative_area_level_1" id="administrative_area_level_1" disabled="true"/>
+        <input type="hidden" class="field" name="postal_code" id="postal_code" disabled="true"/>
+        <input type="hidden" class="field" name="country" id="country" disabled="true"/>
       </div>
-      <!-- Note: The address components in this sample are typical. You might need to adjust them for
-                the locations relevant to your app. For more information, see
-          https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
-      -->
-
-      <table id="address">
-        <tr>
-          <td class="label">Street address</td>
-          <td class="slimField"><input class="field" name="street_number" id="street_number" disabled="true"/></td>
-          <td class="wideField" colspan="2"><input class="field" name="route" id="route" disabled="true"/></td>
-        </tr>
-        <tr>
-          <td class="label">City</td>
-          <td class="wideField" colspan="3"><input class="field" name="locality" id="locality" disabled="true"/></td>
-        </tr>
-        <tr>
-          <td class="label">State</td>
-          <td class="slimField"><input class="field" name="administrative_area_level_1" id="administrative_area_level_1" disabled="true"/></td>
-          <td class="label">Zip code</td>
-          <td class="wideField"><input class="field" name="postal_code" id="postal_code" disabled="true"/></td>
-        </tr>
-        <tr>
-          <td class="label">Country</td>
-          <td class="wideField" colspan="3"><input class="field" name="country" id="country" disabled="true"/></td>
-        </tr>
-      </table>
       
       <h3>When are you best available?</h3>
-      <table id="address">
-        <tr>
-          <td class="label">Date</td>
-          <td class="wideField" colspan="3"><input type="date" class="field" name="date" id="date" placeholder="07/22/2020"/></td>
-          <td class="label">Time</td>
-          <td class="wideField" colspan="3"><input type="time" class="field" name="time" id="time" placeholder="10:15 AM"/></td>
-        </tr>
-      </table> 
+      <div id="locationField">
+        <table>
+          <tr>
+            <td class="label">Date</td>
+            <td class="wideField" colspan="3"><input type="date" class="field" name="date" id="date" placeholder="07/22/2020"/></td>
+            <td class="label">Time</td>
+            <td class="wideField" colspan="3"><input type="time" class="field" name="time" id="time" placeholder="10:15 AM"/></td>
+          </tr>
+        </table> 
+      </div>
       <br>     
       <input type="submit" name="" value="Find food banks">
     </form>
