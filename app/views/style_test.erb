@@ -5,10 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NYC Food Banks</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="/stylesheets/helpers.css" />
     <script src="https://kit.fontawesome.com/f8027915fa.js" crossorigin="anonymous"></script>
+    <style>
+
+        /* background */		
+        .hero {
+            background: white url(images/bg_desktop.jpg) center / cover;
+        }
+        
+        @media (max-width: 1024px) { .hero { background: white url(images/bg_tablet.jpg) center / cover; } }
+        @media (max-width:  768px) { .hero { background: white url(images/bg_mobile.jpg) center / cover; } }
+        
+        /* responsive */
+        @media (max-width: 768px) {
+            :root {
+                font-size: 90%;
+            }
+        }
+    
+    </style>    
   </head>
   <body>
-    <section class="hero has-background-light is-fullheight">
+    <section class="hero is-fullheight">
+      
+        <!-- .hero-body -->
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
@@ -69,6 +90,21 @@
                 </div>
             </div>
         </div>
+        <!-- /.hero-body -->
+
+        <!-- .hero-footer -->    
+        <nav class="hero-footer">
+            <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+                <div class="column left">
+                    <span class="icon is-large is-left"><i class="fas fa-envelope-square"></i></span>
+                </div>            
+                <div class="column right">
+                    <a href="https://invisiblelightnetwork.com/" target="_new"><img src="images/ILN_logo.png"></a>
+                </div>
+            </div>
+        </nav>
+        <!-- /.hero-footer -->  
+        
     </section>
   </body>
 </html>
