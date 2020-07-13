@@ -24,7 +24,9 @@
                         <div class="box">           
                             <% if @banks_sorted != nil %>
                                 <p class="subtitle">
-                                    Here are the nearest food banks open at: <br><strong><%=@time[:hour]%>:<%=@time[:minutes]%> <%=@time[:ampm]%> on <%=@day_of_week%>.</strong>Please call to confirm hours
+                                    Nearest food banks open <strong><%=@day_of_week%></strong> at <strong><%=@time[:hour]%>:<%=@time[:minutes]%> <%=@time[:ampm]%></strong>
+                                    <br>
+                                    <label class="is-size-6 has-text-grey">Please call to confirm hours</label>
                                 </p> 
                                 <label class="label">Locations</label>
                             <% end %>
@@ -136,20 +138,22 @@
                                             <p class="is-size-7"><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a> (<%=@banks_sorted[i].distance.to_f.round(1)%> miles)</p>
                                             <p class="is-size-7"><a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a> (<%=@banks_sorted[i].contact%>)</p>
                                             <p class="is-size-7"><%=@banks_sorted[i].program%></p>
-                                                <ul>
+                                                <table class="table is-narrow is-striped">
                                                     <% days_array = @banks_sorted[i].days.split(',') %>
                                                     <% days_array.each do |day| %>
                                                     <% if day.length > 1 %>
-                                                        <li><p class="is-size-7"><%=day%></p>
+                                                        <tr>
+                                                            <td><p class="is-size-7"> <%=day.split(' ',2)[0]%></p></td>
+                                                            <td><p class="is-size-7"> <%=day.split(' ',2)[1]%></p></td>
+                                                        </tr>
                                                     <% end %>
                                                     <% end %>  
-                                                </ul>
-                                            </p>                                          
+                                                </table>                                          
                                         <% end %>
                                         </div>
                                     <% end %>   
                                 <% else  %>
-                                    No food banks match your selected time.
+                                    <label class="label">No food banks match your selected time.</label>
                                 <% end %>
                             </div>
                         </div>
