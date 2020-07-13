@@ -110,19 +110,19 @@ class ApplicationController < Sinatra::Base
             day_detail = ""
             case index
               when 0
-                day_detail = "Sunday "
+                day_detail = "Sun "
               when 1
-                day_detail = "Monday "
+                day_detail = "Mon "
               when 2
-                day_detail = "Tuesday "
+                day_detail = "Tue "
               when 3
-                day_detail = "Wednesday "
+                day_detail = "Wed "
               when 4
-                day_detail = "Thursday " 
+                day_detail = "Thu " 
               when 5
-                day_detail = "Friday "
+                day_detail = "Fri "
               else
-                day_detail = "Saturday " 
+                day_detail = "Sat " 
             end
             day_detail += day
             day_detail += ","

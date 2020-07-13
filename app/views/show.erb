@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NYC Food Banks</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/f8027915fa.js" crossorigin="anonymous"></script>  
     <style>
        /* Set the size of the div element that contains the map */
       #map {
@@ -9,146 +14,148 @@
        }
     </style>
   </head>
-  <body>    
-    <% if @banks_sorted != nil %>
-        <h1>Here are the 5 closest food banks open at:</h1> 
-        <h2><%=@time[:hour]%>:<%=@time[:minutes]%> <%=@time[:ampm]%> on <%=@day_of_week%></h2>
-        <h2>Please call ahead to confirm hours!</h2>  
-    <% end %>
-    <h3>Food Banks (pin) + Your Location (circle) Maps</h3>
-    <!--The div element for the map -->
-    <div id="map"></div>
-    <script>
-    // Initialize and add the map
-    function initMap() {
-    // The location of food banks
-    <% for i in 0..4 %>
-        <% if @banks_sorted[i] != nil %>
-            var bank_<%=i%> = {lat: <%=@banks_sorted[i].lat%>, lng: <%=@banks_sorted[i].lng%>};
-        <% end %>
-    <% end %>
-    // The location of user
-    var user_location = {lat: <%=@user_location.lat%>, lng: <%=@user_location.lng%>};    
-    // The map, centered at the user
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 11.5, 
-        center: user_location,
-        gestureHandling: 'auto'
-    });
+  <body> 
+    <section class="hero has-background-white-ter is-fullheight">
+        <!-- .hero-body -->
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class ="column is-5-tablet is-5-desktop is-5-widescreen"> 
+                        <div class="box">           
+                            <% if @banks_sorted != nil %>
+                                <p class="subtitle">
+                                    Here are the nearest food banks open at: <br><strong><%=@time[:hour]%>:<%=@time[:minutes]%> <%=@time[:ampm]%> on <%=@day_of_week%>.</strong>Please call to confirm hours
+                                </p> 
+                                <label class="label">Locations</label>
+                            <% end %>
 
-    <% for i in 0..4 %>
-        <% if @banks_sorted[i] != nil %>
-        var contentString_<%=i%> = '<div id="content">'+
-        '<div id="siteNotice">'+
-        '</div>'+
-        '<h3 id="firstHeading" class="firstHeading"><%=@banks_sorted[i].name.gsub("\'","&#8217;")%></h3>'+ //Replace any single quotes in the names with equivalent code so HTML does not crash
-        '<div id="bodyContent">'+
-        '<p><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a><br>'+        
-        '<a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a></p>'+
-        '</div>'+
-        '</div>';
-        <% end %>            
-    <% end %>
+                            <!------------------------>
+                            <!-- Code for map BEGIN -->
+                            <!------------------------>
 
-    var contentString_user = '<div id="content">'+
-    '<div id="siteNotice">'+
-    '</div>'+
-    '<h4 id="firstHeading" class="firstHeading"><%=@user_location.full_address%></h4>'+ 
-    '</div>';
+                            <!--The div element for the map -->
+                            <div id="map"></div>
 
-    // The markers, positioned for each food bank
-    <% for i in 0..4 %>
-        var infowindow_<%=i%> = new google.maps.InfoWindow({
-            content: contentString_<%=i%>
-        });     
-        var marker_<%=i%> = new google.maps.Marker({
-            position: bank_<%=i%>,             
-            map: map
-        });
-        marker_<%=i%>.addListener('click', function() {
-            <% for j in 0..4 %>
-                if (infowindow_<%=j%>) {
-                    infowindow_<%=j%>.close();
-                }
-            <% end %>
-            if (infowindow_user) {
-                infowindow_user.close();
-            }
-            infowindow_<%=i%>.open(map, marker_<%=i%>);
-        });    
-    <% end %>
-    // InfoWindow for user
-    var infowindow_user = new google.maps.InfoWindow({
-        content: contentString_user
-    });    
-    // The marker positioned for the user
-        var marker_user = new google.maps.Marker({
-            position: user_location, 
-            icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 4
-              },            
-            map: map
-        });   
-        marker_user.addListener('click', function() {
-            infowindow_user.close;
-            infowindow_user.open(map, marker_user);
-          });        
-    }
-    </script>
-    <!--Load the API from the specified URL
-    * The async attribute allows the browser to render the page while the API loads
-    * The key parameter will contain your own API key (which is not needed for this tutorial)
-    * The callback parameter executes the initMap() function
-    -->
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=<%=@api_key%>&callback=initMap">
-    </script>
-    <% if @banks_sorted != nil %>
-
-        <% for i in 0..4 %>
-            <% if @banks_sorted[i] != nil %>
-                <p><%=i+1%>. <%=@banks_sorted[i].name%>:
-                <table>
-                    <tr>
-                        <td>Address:</td>
-                        <td><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a></td>
-                    </tr>
-                    <tr>
-                        <td>Type:</td>
-                        <td><%=@banks_sorted[i].program%></td>
-                    </tr>
-                    <tr>                
-                        <td>Phone:</td> 
-                        <td><a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a></td>
-                    </tr>
-                    <tr>                
-                        <td>Contact:</td> 
-                        <td><%=@banks_sorted[i].contact%></td>
-                    </tr>
-                    <tr>                         
-                        <td>Distance:</td> 
-                        <td><%=@banks_sorted[i].distance.to_f.round(2)%> miles</td>
-                    </tr>
-                    <tr>                         
-                        <td>Hours:</td>
-                        <td>
-                            <ul>
-                            <% days_array = @banks_sorted[i].days.split(',') %>
-                            <% days_array.each do |day| %>
-                                <% if day.length > 1 %>
-                                    <li><%=day%>
+                            <script>
+                            // Initialize and add the map
+                            function initMap() {
+                            // The location of food banks
+                            <% for i in 0..4 %>
+                                <% if @banks_sorted[i] != nil %>
+                                    var bank_<%=i%> = {lat: <%=@banks_sorted[i].lat%>, lng: <%=@banks_sorted[i].lng%>};
                                 <% end %>
                             <% end %>
-                            </ul>
-                        </td>
-                    </tr>
-                </table>
-                </p>
-            <% end %>
-        <% end %>   
-    <% else  %>
-        No food banks match your selected time.
-    <% end %>     
+                            // The location of user
+                            var user_location = {lat: <%=@user_location.lat%>, lng: <%=@user_location.lng%>};    
+                            // The map, centered at the user
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 11.5, 
+                                center: user_location,
+                                gestureHandling: 'auto'
+                            });
+                            <% for i in 0..4 %>
+                                <% if @banks_sorted[i] != nil %>
+                                var contentString_<%=i%> = '<div id="content">'+
+                                '<div id="siteNotice">'+
+                                '</div>'+
+                                '<p class="is-size-7"><strong><%=@banks_sorted[i].name.gsub("\'","&#8217;")%></strong></p>'+ //Replace any single quotes in the names with equivalent code so HTML does not crash
+                                '<p class="is-size-7"><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a><br>'+        
+                                '<a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a></p>'+
+                                '</div>';
+                                <% end %>            
+                            <% end %>
+
+                            var contentString_user = '<div id="content">'+
+                            '<div id="siteNotice">'+
+                            '</div>'+
+                            '<h4 id="firstHeading" class="firstHeading"><%=@user_location.full_address%></h4>'+ 
+                            '</div>';
+
+                            // The markers, positioned for each food bank
+                            <% for i in 0..4 %>
+                                var infowindow_<%=i%> = new google.maps.InfoWindow({
+                                    content: contentString_<%=i%>
+                                });     
+                                var marker_<%=i%> = new google.maps.Marker({
+                                    position: bank_<%=i%>,             
+                                    map: map
+                                });
+                                marker_<%=i%>.addListener('click', function() {
+                                    <% for j in 0..4 %>
+                                        if (infowindow_<%=j%>) {
+                                            infowindow_<%=j%>.close();
+                                        }
+                                    <% end %>
+                                    if (infowindow_user) {
+                                        infowindow_user.close();
+                                    }
+                                    infowindow_<%=i%>.open(map, marker_<%=i%>);
+                                });    
+                            <% end %>
+                            // InfoWindow for user
+                            var infowindow_user = new google.maps.InfoWindow({
+                                content: contentString_user
+                            });    
+                            // The marker positioned for the user
+                                var marker_user = new google.maps.Marker({
+                                    position: user_location, 
+                                    icon: {
+                                        path: google.maps.SymbolPath.CIRCLE,
+                                        scale: 4
+                                    },            
+                                    map: map
+                                });   
+                                marker_user.addListener('click', function() {
+                                    infowindow_user.close;
+                                    infowindow_user.open(map, marker_user);
+                                });        
+                            }
+                            </script>
+
+                            <!--Load the API from the specified URL
+                            * The async attribute allows the browser to render the page while the API loads
+                            * The key parameter will contain your own API key (which is not needed for this tutorial)
+                            * The callback parameter executes the initMap() function
+                            -->
+
+                            <script async defer
+                            src="https://maps.googleapis.com/maps/api/js?key=<%=@api_key%>&callback=initMap">
+                            </script>
+
+                            <!---------------------->
+                            <!-- Code for map END -->
+                            <!---------------------->
+
+                            <!---- Bank details ---->
+                            <br>
+                            <% if @banks_sorted != nil %>
+                                <% for i in 0..4 %>
+                                    <% if @banks_sorted[i] != nil %>
+                                        <div class="box"> 
+                                            <p class="is-size-6"><strong><%=@banks_sorted[i].name%></strong></p>
+                                            <p class="is-size-7"><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a> (<%=@banks_sorted[i].distance.to_f.round(1)%> miles)</p>
+                                            <p class="is-size-7"><a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a> (<%=@banks_sorted[i].contact%>)</p>
+                                            <p class="is-size-7"><%=@banks_sorted[i].program%></p>
+                                                <ul>
+                                                    <% days_array = @banks_sorted[i].days.split(',') %>
+                                                    <% days_array.each do |day| %>
+                                                    <% if day.length > 1 %>
+                                                        <li><p class="is-size-7"><%=day%></p>
+                                                    <% end %>
+                                                    <% end %>  
+                                                </ul>
+                                            </p>                                          
+                                        <% end %>
+                                        </div>
+                                    <% end %>   
+                                <% else  %>
+                                    No food banks match your selected time.
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>    
 </body>
 </html>
