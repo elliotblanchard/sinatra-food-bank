@@ -14,8 +14,10 @@ gem 'dotenv'
 gem 'geokit'
 gem 'nokogiri'
 gem 'sinatra-flash'
-#gem 'pg', '~> 0.20'
-gem 'pg', '~> 1.2', '>= 1.2.3'
+gem 'pg', '~> 0.20.0'
+#gem 'pg', '~> 0.21'
+#gem 'pg', '1.2.3'
+#gem 'pg'
 gem 'sqlite3', '~> 1.3.6', :group => :development 
 
 group :test do
