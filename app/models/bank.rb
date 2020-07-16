@@ -50,7 +50,7 @@ class Bank < ActiveRecord::Base
           # Create two time objects from the hashes
           bank_time_start = create_time_object(bank_time_start_hash)
           bank_time_end = create_time_object(bank_time_end_hash)
-          
+
           #Checking if the user's time is in the open hours of the food bank
           range = bank_time_start..bank_time_end
           if range === user_time 
@@ -63,10 +63,14 @@ class Bank < ActiveRecord::Base
       def self.create_time_object(time_hash)
         # Quick method to create time objects
         if time_hash[:ampm] == "AM"
-          time = Time.new(2020, 1, 1, time_hash[:hour], time_hash[:minutes])
+          if time_hash[:hour].to_i == 12
+            time = Time.new(2020, 1, 1, 0, time_hash[:minutes])
+          else
+            time = Time.new(2020, 1, 1, time_hash[:hour], time_hash[:minutes])
+          end
         else
           if time_hash[:hour].to_i == 12
-            adjusted_hour = 13
+            adjusted_hour = 12
           else 
             adjusted_hour = time_hash[:hour].to_i+12
           end

@@ -103,7 +103,6 @@ class ApplicationController < Sinatra::Base
       @api_key =  ENV['GOOGLE_MAPS_API_KEY']
       # Format open times correctly
       @banks_sorted.each do |bank|
-        #binding.pry
         #days_array = bank.days.gsub(/[^\d\s:,-]/, "").split(',') #Clean out everything except letters, numbers, :, -, comma, and whitespace
         days_array = bank.days.gsub(/"/, "")[1..-2].split(',') #Clean out everything except letters, numbers, :, -, comma, and whitespace
         bank.days = ""
@@ -131,7 +130,6 @@ class ApplicationController < Sinatra::Base
             bank.days << day_detail
           end
         end
-        #binding.pry
       end
     end
 
