@@ -85,19 +85,26 @@ class ApplicationController < Sinatra::Base
     same_time = Bank.find_by_time(@time)
     
     if same_time.length > 0
-      # If address params are blank/nill, default to generic New York location
-      if params[:street_number] == nil
-        params[:street_number] = ""
-      end
-      if params[:route] == nil 
-        params[:route] = ""
-      end
-      if params[:postal_code] == nil 
-        params[:postal_code] = ""
+      # If address params are blank/nill (because user typed in address and didn't use the Google Maps selected auto-complete) 
+      # (Or picked a saved / suggested address that their phone saved, which also skips Google Maps auto-complete)
+      # Use the info the user input (they have to input something b/c it's a required form field)
+      if (params[:street_number] == nil) && (params[:route] == nil) && (params[:postal_code] == nil)
+        full_address = params[:address_input] + " New York, NY"
+      else  
+        full_address = params[:street_number] + " " + params[:route] + " New York, NY " + params[:postal_code]
       end
 
+      #if params[:street_number] == nil
+      #  params[:street_number] = ""
+      #end
+      #if params[:route] == nil 
+      #  params[:route] = ""
+      #end
+      #if params[:postal_code] == nil 
+      #  params[:postal_code] = ""
+      #end
+
       # Get distance between the user and every food bank open at the right time / day
-      full_address = params[:street_number] + " " + params[:route] + " New York, NY " + params[:postal_code]
       @user_location = Mapping.get_location(full_address)
       @banks_sorted = Mapping.get_distance(full_address,same_time,@user_location)
       @api_key =  ENV['GOOGLE_MAPS_API_KEY']
