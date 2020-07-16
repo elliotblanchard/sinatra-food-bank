@@ -21,13 +21,17 @@ class Bank < ActiveRecord::Base
         correct_day.each do |bank| 
           # Parse the time data in the XML file to extract times
           if bank.days
-            time_raw = bank.days.split(",")[time_hash[:day].to_i].split("-")
+            if bank.days.split(",")[time_hash[:day].to_i].include? "-"
+              time_raw = bank.days.split(",")[time_hash[:day].to_i].split("-")
+            else
+              # rare entries are formatted "12:00 PM to 02:00 PM" instead of "12:00 PM - 02:00 PM"
+              time_raw = bank.days.split(",")[time_hash[:day].to_i].split("to") 
+            end
           end
           start_time_raw = time_raw[0].split(":")
           start_time_raw[0] = start_time_raw[0].scan(/\d/).join('') #only take digits
           end_time_raw = time_raw[1].split(":")
           end_time_raw[1] = end_time_raw[1][0,5] #Trim edge case data
-          
           # Create two hashes using the extracted data
           bank_time_start_hash = {
             :day => 0, 
