@@ -103,7 +103,9 @@ class ApplicationController < Sinatra::Base
       @api_key =  ENV['GOOGLE_MAPS_API_KEY']
       # Format open times correctly
       @banks_sorted.each do |bank|
-        days_array = bank.days.gsub(/[^\d\s:,-]/, "").split(',') #Clean out everything except letters, numbers, :, -, comma, and whitespace
+        #binding.pry
+        #days_array = bank.days.gsub(/[^\d\s:,-]/, "").split(',') #Clean out everything except letters, numbers, :, -, comma, and whitespace
+        days_array = bank.days.gsub(/"/, "")[1..-2].split(',') #Clean out everything except letters, numbers, :, -, comma, and whitespace
         bank.days = ""
         days_array.each_with_index do |day, index|
           if day.length > 7 #Covers 'closed' or '-'
@@ -129,6 +131,7 @@ class ApplicationController < Sinatra::Base
             bank.days << day_detail
           end
         end
+        #binding.pry
       end
     end
 
