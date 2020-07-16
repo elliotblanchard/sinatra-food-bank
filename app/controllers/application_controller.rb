@@ -45,12 +45,20 @@ class ApplicationController < Sinatra::Base
     if params[:date].include? "-"
       #Browser supports date field
       date_elements = params[:date].split("-")
-    elsif (params[:date].include? "/") && (params[:date].split("/").length == 3)
-      #Browser does not support date field
-      temp_elements = params[:date].split("/")
-      date_elements[0] = temp_elements[2]
-      date_elements[1] = temp_elements[0]
-      date_elements[2] = temp_elements[1]        
+    elsif (params[:date].include? "/") && (params[:date].split("/").length == 3) 
+      #Browser does not support date field 
+      if (params[:date].split("/")[0].to_i > 0) && (params[:date].split("/")[0].to_i < 13) && (params[:date].split("/")[1].to_i > 0) && (params[:date].split("/")[1].to_i < 32) && (params[:date].split("/")[2][-2..-1].to_i > -1) && (params[:date].split("/")[2][-2..-1].to_i < 99)
+        #is valid input
+        temp_elements = params[:date].split("/")
+        date_elements[0] = temp_elements[2]
+        date_elements[1] = temp_elements[0]
+        date_elements[2] = temp_elements[1]  
+      else
+        #Default to today
+        date_elements[0] = DateTime.now.year
+        date_elements[1] = DateTime.now.month
+        date_elements[2] = DateTime.now.day 
+      end
     else
       #Default to today
       date_elements[0] = DateTime.now.year
@@ -75,8 +83,16 @@ class ApplicationController < Sinatra::Base
       time_elements[0] = DateTime.now.hour
       time_elements[1] = DateTime.now.min
     end
-    dateTime = DateTime.new(date_elements[0].to_i,date_elements[1].to_i,date_elements[2].to_i,time_elements[0].to_i,time_elements[1].to_i)
-    @time[:day] = dateTime.strftime("%w") #Returns day of week as number starting with Sunday = 0
+    
+    # This catches an invalid date
+    begin
+      dateTime = DateTime.new(date_elements[0].to_i,date_elements[1].to_i,date_elements[2].to_i,time_elements[0].to_i,time_elements[1].to_i)
+    rescue ArgumentError
+      # handle invalid date / time / garbage input
+      dateTime = DateTime.now
+    end
+    
+      @time[:day] = dateTime.strftime("%w") #Returns day of week as number starting with Sunday = 0
     @day_of_week = dateTime.strftime("%A")
     @time[:hour] = dateTime.strftime("%l") #Hour of the day, 12 hour format, blank padded as in " 1" instead of "01"
     @time[:minutes] = dateTime.strftime("%M") #Minute of the hour zero padded as in "05"

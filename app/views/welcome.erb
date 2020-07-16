@@ -36,9 +36,8 @@
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
-                  <div class ="column is-5-tablet is-5-desktop is-5-widescreen">
+                  <div class ="column is-5-tablet is-6-desktop is-7-widescreen">
                         <div class="box">
-                            <!--<h3 class="title is-3">NYC Food Banks</h3>-->
                             <p class="subtitle">
                                 We search 500+ NYC food banks in all five boroughs to find the nearest one open for <strong>you</strong>.
                             </p>
@@ -62,7 +61,7 @@
                                 <div class="field">
                                     <label for ="" class="label">Day</label>
                                     <div class="control has-icons-left">
-                                        <input type="date" name="date" id="date" placeholder="07/22/2020" class="input" required>
+                                        <input type="date" name="date" id="date" value="<%=DateTime.now.month%>/<%=DateTime.now.day%>/<%=DateTime.now.year%>" class="input" required>
                                         <span class="icon is-small is-left">
                                             <i class="fa fa-calendar-alt"></i>
                                         </span>
@@ -72,7 +71,7 @@
                                 <div class="field">
                                     <label for ="" class="label">Time</label>
                                     <div class="control has-icons-left">
-                                        <input type="time" name="time" id="time" placeholder="10:15 AM" class="input" required>
+                                        <input type="time" name="time" id="time" value="<%=DateTime.now.strftime("%I:%M%p")%>" class="input" required>
                                         <span class="icon is-small is-left">
                                             <i class="fa fa-clock"></i>
                                         </span>
