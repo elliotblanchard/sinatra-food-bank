@@ -71,7 +71,7 @@
                                 <div class="field">
                                     <label for ="" class="label">Time</label>
                                     <div class="control has-icons-left">
-                                        <input type="time" name="time" id="time" value="<%=DateTime.now.strftime("%I:%M%p")%>" class="input" required>
+                                        <input type="time" name="time" id="time" value="<%=DateTime.now.in_time_zone('US/Eastern').strftime("%I:%M%p")%>" class="input" required>
                                         <span class="icon is-small is-left">
                                             <i class="fa fa-clock"></i>
                                         </span>

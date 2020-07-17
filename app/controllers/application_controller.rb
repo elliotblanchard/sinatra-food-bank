@@ -1,6 +1,7 @@
 require_relative '../../lib/mapping_module'
 require './config/environment'
 require 'date'
+require 'active_support/time'
 
 class ApplicationController < Sinatra::Base
   include Mapping  
@@ -92,7 +93,7 @@ class ApplicationController < Sinatra::Base
       dateTime = DateTime.now
     end
     
-      @time[:day] = dateTime.strftime("%w") #Returns day of week as number starting with Sunday = 0
+    @time[:day] = dateTime.strftime("%w") #Returns day of week as number starting with Sunday = 0
     @day_of_week = dateTime.strftime("%A")
     @time[:hour] = dateTime.strftime("%l") #Hour of the day, 12 hour format, blank padded as in " 1" instead of "01"
     @time[:minutes] = dateTime.strftime("%M") #Minute of the hour zero padded as in "05"
