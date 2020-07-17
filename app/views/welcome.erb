@@ -61,7 +61,7 @@
                                 <div class="field">
                                     <label for ="" class="label">Day</label>
                                     <div class="control has-icons-left">
-                                        <input type="date" name="date" id="date" value="<%=DateTime.now.month%>/<%=DateTime.now.day%>/<%=DateTime.now.year%>" class="input" required>
+                                        <input type="date" name="date" id="date" value="<%=DateTime.now.in_time_zone('US/Eastern').month%>/<%=DateTime.now.in_time_zone('US/Eastern').day%>/<%=DateTime.now.in_time_zone('US/Eastern').year%>" class="input" required>
                                         <span class="icon is-small is-left">
                                             <i class="fa fa-calendar-alt"></i>
                                         </span>

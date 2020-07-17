@@ -56,15 +56,15 @@ class ApplicationController < Sinatra::Base
         date_elements[2] = temp_elements[1]  
       else
         #Default to today
-        date_elements[0] = DateTime.now.year
-        date_elements[1] = DateTime.now.month
-        date_elements[2] = DateTime.now.day 
+        date_elements[0] = DateTime.now.in_time_zone('US/Eastern').year
+        date_elements[1] = DateTime.now.in_time_zone('US/Eastern').month
+        date_elements[2] = DateTime.now.in_time_zone('US/Eastern').day 
       end
     else
       #Default to today
-      date_elements[0] = DateTime.now.year
-      date_elements[1] = DateTime.now.month
-      date_elements[2] = DateTime.now.day    
+      date_elements[0] = DateTime.now.in_time_zone('US/Eastern').year
+      date_elements[1] = DateTime.now.in_time_zone('US/Eastern').month
+      date_elements[2] = DateTime.now.in_time_zone('US/Eastern').day    
     end
     #Set up time
     if (!params[:time].include? "M") && (params[:time].split(":").length == 2)
@@ -81,8 +81,8 @@ class ApplicationController < Sinatra::Base
       time_elements[1] = temp_elements[1]
     else
       #Default to now
-      time_elements[0] = DateTime.now.hour
-      time_elements[1] = DateTime.now.min
+      time_elements[0] = DateTime.now.in_time_zone('US/Eastern').hour
+      time_elements[1] = DateTime.now.in_time_zone('US/Eastern').min
     end
     
     # This catches an invalid date
@@ -90,7 +90,7 @@ class ApplicationController < Sinatra::Base
       dateTime = DateTime.new(date_elements[0].to_i,date_elements[1].to_i,date_elements[2].to_i,time_elements[0].to_i,time_elements[1].to_i)
     rescue ArgumentError
       # handle invalid date / time / garbage input
-      dateTime = DateTime.now
+      dateTime = DateTime.now.in_time_zone('US/Eastern')
     end
     
     @time[:day] = dateTime.strftime("%w") #Returns day of week as number starting with Sunday = 0
