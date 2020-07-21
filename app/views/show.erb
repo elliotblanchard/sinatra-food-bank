@@ -20,7 +20,7 @@
         <nav class="hero-head">
             <div class="columns is-mobile is-marginless heading has-text-weight-bold">
                 <div class="column left">
-                    <p class="subtitle">NYC FOOD BANKS</p>
+                    <p class="subtitle"><a href="http://www.foodbanks.nyc">NYC FOOD BANKS</a></p>
                 </div>              
             </div>
         </nav>
@@ -149,26 +149,28 @@
                                             <p class="is-size-6"><a href="https://maps.google.com/?q=<%=@banks_sorted[i].address%>" target="_new"><%=@banks_sorted[i].address%></a> (<%=@banks_sorted[i].distance.to_f.round(1)%> miles)</p>
                                             <p class="is-size-6"><a href="tel:<%=@banks_sorted[i].phone%>"><%=@banks_sorted[i].phone%></a> (<%=@banks_sorted[i].contact%>)</p>
                                             <p class="is-size-6"><%=@banks_sorted[i].program%></p>
-                                                <table class="table is-narrow is-striped">
-                                                    <% days_array = @banks_sorted[i].days.split(',') %>
-                                                    <% days_array.each do |day| %>
+                                            <table class="table is-narrow is-striped">
+                                                <% days_array = @banks_sorted[i].days.split(',') %>
+                                                <% days_array.each do |day| %>
                                                     <% if day.length > 1 %>
                                                         <tr>
                                                             <td><p class="is-size-6"> <%=day.split(' ',2)[0]%></p></td>
                                                             <td><p class="is-size-6"> <%=day.split(' ',2)[1]%></p></td>
                                                         </tr>
                                                     <% end %>
-                                                    <% end %>  
-                                                </table>                                          
-                                        <% end %>
-                                        </div>
-                                    <% end %>   
-                                <% else  %>
+                                                <% end %>  
+                                            </table> 
+                                        </div>                                         
+                                    <% end %>
+                                <% end %> 
+                                <p class="navbar-item desktop has-text-black desktop has-text-weight-bold"><a href="http://www.foodbanks.nyc">NEW SEARCH</a></p>  
+                            <% else  %>
                                     <p class="subtitle">
                                         No food banks are open <strong><%=@time[:day_of_week]%></strong> at <strong><%=@time[:hour]%>:<%=@time[:minutes]%> <%=@time[:ampm]%></strong>
                                     </p> 
+                                    <p class="navbar-item desktop has-text-black desktop has-text-weight-bold"><a href="http://www.foodbanks.nyc">NEW SEARCH</a></p>
                                     <br>
-                                <% end %>
+                            <% end %>
                             </div>
                         </div>
                     </div>
@@ -179,7 +181,7 @@
             <nav class="hero-footer">
                 <div class="columns is-mobile is-marginless heading has-text-weight-bold">
                     <div class="column left">
-                        <p class="navbar-item desktop has-text-black desktop"><a href="#">CONTACT US</a></p>
+                        <p class="navbar-item desktop has-text-black desktop"><a href="mailto:elliot@foodbanks.nyc">CONTACT US</a></p>
                     </div>
                 </div>
             </nav>
