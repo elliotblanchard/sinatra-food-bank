@@ -82,7 +82,13 @@ class ApplicationController < Sinatra::Base
     erb:'/show'
   end
 
-  get "/style_test" do
-    erb:'/style_test'
+  #get "/style_test" do
+  #  erb:'/style_test'
+  #end
+
+  get '/zohoverify/verifyforzoho.html' do
+    File.read(File.join('public/zohoverify', 'verifyforzoho.html'))
+    # or
+    # send_file File.join(settings.public, 'index.html')
   end
 end
