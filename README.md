@@ -21,7 +21,7 @@ Foodbanks.nyc searches 500+ NYC food banks to find the nearest one open for you.
 Visit http://www.foodbanks.nyc/
 
 ## Contributors Guide 👋
-Bug reports and pull requests are welcome on GitHub at https://github.com/elliotblanchard/rails-final-aicms. This project is intended to be a safe, welcoming space for collaboration.
+Bug reports and pull requests are welcome on GitHub at https://github.com/elliotblanchard/sinatra-food-bank. This project is intended to be a safe, welcoming space for collaboration.
 
 ## License
 The app is available as open source under the terms of the MIT License.
